@@ -1,10 +1,10 @@
 import './App.css';
-import UserInfoComponentForm2 from './Components/UserInfoHook';
+import UserInfoValidationForm from './Components/UserinfoValidationForm';
 function App() {
   return (
     <>
       <h1>Rohit Azad Malik (React js Form Validation with React Hook Form)</h1>
-      <UserInfoComponentForm2 />
+      <UserInfoValidationForm />
     </>
   );
 }

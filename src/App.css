@@ -22,3 +22,6 @@ input[type=submit]{
   background-color: black;
   color: #ffffff;
 }
+.error{
+  color:red;
+}
