@@ -25,6 +25,9 @@ const UserInfoValidationForm = ()=>{
                             required:{
                                 value:true,
                                 message:'Please fill your good name'
+                            },
+                            validate:(fieldValue)=>{
+                                return fieldValue !== 'admin' || 'Please enter another name'
                             }
                         })} placeholder='Enter your name' />
                         <p className='error'>{errors.name?.message}</p>
@@ -39,6 +42,19 @@ const UserInfoValidationForm = ()=>{
                             required:{
                                 value:true,
                                 message:'Please fill your email id'
+                            },
+                            validate:{
+                                notAdminEmail:(value)=>{
+                                    return value !== 'admin@admin.com' || 'Please choose another email id'
+                                },
+                                blockDomain:(value)=>{
+                                    return (
+                                        !value.endsWith('test.com') || "This domain is not allowd"
+                                    )
+                                },
+                                lengthError: (value)=>{
+                                    return value.length > 6 || 'Please write correct email formate'
+                                }
                             }
                         })} placeholder='Enter your email' />
                         <p className='error'>{errors.email?.message}</p>
