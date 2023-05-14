@@ -30,3 +30,14 @@ input[type=email]{
   width:200px;
   padding:5px;
 }
+.addBtn{
+  padding:15px;
+  font-weight: bold;
+  background-color: gray;
+  font-size:20px;
+}
+.rmoveBtn{
+  padding:5px;
+  font-weight: bold;
+  font-size:20px;
+}

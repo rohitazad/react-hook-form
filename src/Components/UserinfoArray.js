@@ -1,5 +1,5 @@
 import React from 'react';
-import {useForm} from 'react-hook-form';
+import {useForm, useFieldArray} from 'react-hook-form';
 import {DevTool} from '@hookform/devtools';
 
 
@@ -8,16 +8,24 @@ const UserInfoArray = ()=>{
         defaultValues:{
             name:'Rohit Azad',
             email:'learncodingwithbhai@gmail.com',
-            phone:['', ''],
+            phone:['9910006711', ''],
             address:{
-                city:'Delhi',
-                pincode:'110001'
-            }
+                city:'',
+                pincode:''
+            },
+            anoterPhoneNo:[{
+                number:''
+            }],
+            age:0,
+            dateOfBirth: new Date()
         }
     })
     const {register, control, handleSubmit, formState:{errors}} = form;
-    
-    console.log('form', form)
+    const {fields, append, remove } = useFieldArray({
+        name:'anoterPhoneNo',
+        control
+    })
+    //console.log('useFildArray')
     const formSubmit = (data)=>{
         console.log('form submit', data);
        
@@ -31,6 +39,14 @@ const UserInfoArray = ()=>{
                     <div className='fromGroup'>
                         <label htmlFor="name">Name</label>
                         <input type="text" id="name" {...register('name', {
+                            minLength:{
+                                value:4,
+                                message:'Please fill more then 3 chr'
+                            },
+                            maxLength:{
+                                value:40,
+                                message:'Please fill less then 40 chr'
+                            },
                             required:{
                                 value:true,
                                 message:'Please fill your good name'
@@ -91,6 +107,52 @@ const UserInfoArray = ()=>{
                         <input id="pincode" type="text" {...register('address.pincode')} placeholder='Enter your pincode' />
                     </div>
 
+                        <div>
+                            <h5>Add more Phone NO.</h5>
+                            {
+                                fields.map((field, index)=>{
+                                    return (
+                                        <div key={field.id} className='fromGroup'>
+                                            <input type="text" {...register(`anoterPhoneNo.${index}.number`)} />
+                                            {
+                                                index> 0 && <button className='rmoveBtn' type="button" onClick={()=>remove(index)}>remove field </button>
+                                            }
+                                        </div>
+                                    )
+                                })
+                            }
+                            <button className='addBtn' type="button" onClick={()=>append({number:''})}>Add one more field </button>
+                        </div>
+                    <div className='fromGroup'>
+                        <label htmlFor="age">Age</label>
+                        <input type="number" id="age" {...register('age', {
+                            valueAsNumber:true,
+                            min:{
+                                value:3,
+                                message:'Please fill age more then 3'
+                            },
+                            max:{
+                                value:100,
+                                message:'you can not fill this form beacuse of your age is exits'
+                            },
+                            required:{
+                                value:true,
+                                message:'Please fill age'
+                            }
+                        })} placeholder='Enter your age' />
+                        <p className='error'>{errors.age?.message}</p>
+                    </div>
+                    <div className='fromGroup'>
+                        <label htmlFor="dateOfBirth">Date of Birth</label>
+                        <input type="date" id="dateOfBirth" {...register('dateOfBirth', {
+                            valueAsDate:true,
+                            required:{
+                                value:true,
+                                message:'Please fill date Of Birth'
+                            }
+                        })} placeholder='Enter your date Of Birth' />
+                        <p className='error'>{errors.dateOfBirth?.message}</p>
+                    </div>
 
                     <div className='fromGroup'>
                         <input type="submit" value="Save" />
