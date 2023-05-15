@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useForm, useFieldArray} from 'react-hook-form';
 import {DevTool} from '@hookform/devtools';
 
-
+let componentRerender = 0;
 const UserInfoArray = ()=>{
     const form = useForm({
         defaultValues:{
@@ -20,7 +20,7 @@ const UserInfoArray = ()=>{
             dateOfBirth: new Date()
         }
     })
-    const {register, control, handleSubmit, formState:{errors}} = form;
+    const {register, control, handleSubmit, watch, formState:{errors}} = form;
     const {fields, append, remove } = useFieldArray({
         name:'anoterPhoneNo',
         control
@@ -30,11 +30,20 @@ const UserInfoArray = ()=>{
         console.log('form submit', data);
        
     }
+    // const formWatch = watch();
+    useEffect(()=>{
+       const subscription =  watch((data)=>{
+            return console.log('data', data)
+        })
+        return ()=> subscription.unsubscribe();
+    }, [watch])
+    componentRerender ++;
     return (
         <>
             <div className='userFrom'>
                 <h2>User Info Details</h2>
-                <h3>My Components Rerender - </h3>
+                <h3>My Components Rerender - ({componentRerender/2})</h3>
+               {/* <h3>Form Watch {JSON.stringify(formWatch)}</h3> */}
                 <form action="#" onSubmit={handleSubmit(formSubmit)} className='userDetailForm' noValidate>
                     <div className='fromGroup'>
                         <label htmlFor="name">Name</label>
