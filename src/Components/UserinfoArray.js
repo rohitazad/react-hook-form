@@ -20,7 +20,10 @@ const UserInfoArray = ()=>{
             dateOfBirth: new Date()
         }
     })
-    const {register, control, handleSubmit, watch, formState:{errors}} = form;
+    const {register, control, handleSubmit, watch, getValues, setValue, formState:{errors, touchedFields, dirtyFields, isDirty}} = form;
+
+    console.log({touchedFields, dirtyFields, isDirty});
+    
     const {fields, append, remove } = useFieldArray({
         name:'anoterPhoneNo',
         control
@@ -30,13 +33,30 @@ const UserInfoArray = ()=>{
         console.log('form submit', data);
        
     }
-    // const formWatch = watch();
-    useEffect(()=>{
-       const subscription =  watch((data)=>{
-            return console.log('data', data)
+    const hangelGetValues = ()=>{
+        const formValue = getValues(["name","email","address.city","address.pincode"]);
+        console.log('formValue',formValue)
+    }
+    const hangelSetValues = ()=>{
+        setValue("name","",{
+            shouldValidate:true,
+            shouldDirty:true,
+            shouldTouch:true
         })
-        return ()=> subscription.unsubscribe();
-    }, [watch])
+        setValue("email","",
+        {
+            shouldValidate:true,
+            shouldDirty:true,
+            shouldTouch:true
+        })
+    }
+    // const formWatch = watch();
+    // useEffect(()=>{
+    //    const subscription =  watch((data)=>{
+    //         return console.log('data', data)
+    //     })
+    //     return ()=> subscription.unsubscribe();
+    // }, [watch])
     componentRerender ++;
     return (
         <>
@@ -165,6 +185,8 @@ const UserInfoArray = ()=>{
 
                     <div className='fromGroup'>
                         <input type="submit" value="Save" />
+                        <button type="button" onClick={hangelGetValues}>GetValues</button>
+                        <button type="button" onClick={hangelSetValues}>SetValues</button>
                     </div>
 
                 </form>
