@@ -6,8 +6,8 @@ let componentRerender = 0;
 const UserInfoArray = ()=>{
     const form = useForm({
         defaultValues:{
-            name:'Rohit Azad',
-            email:'learncodingwithbhai@gmail.com',
+            name:'',
+            email:'',
             phone:['9910006711', ''],
             address:{
                 city:'',
@@ -22,7 +22,7 @@ const UserInfoArray = ()=>{
     })
     const {register, control, handleSubmit, watch, getValues, setValue, formState:{errors, touchedFields, dirtyFields, isDirty}} = form;
 
-    console.log({touchedFields, dirtyFields, isDirty});
+    //console.log({touchedFields, dirtyFields, isDirty});
     
     const {fields, append, remove } = useFieldArray({
         name:'anoterPhoneNo',
@@ -67,7 +67,8 @@ const UserInfoArray = ()=>{
                 <form action="#" onSubmit={handleSubmit(formSubmit)} className='userDetailForm' noValidate>
                     <div className='fromGroup'>
                         <label htmlFor="name">Name</label>
-                        <input type="text" id="name" {...register('name', {
+                        <input  type="text" id="name" {...register('name', {
+                            disabled: watch('email') === '',
                             minLength:{
                                 value:4,
                                 message:'Please fill more then 3 chr'
@@ -88,7 +89,7 @@ const UserInfoArray = ()=>{
                     </div>
                     <div className='fromGroup'>
                         <label htmlFor="name">Email</label>
-                        <input id="email"  type="email" {...register('email', {
+                        <input  id="email"  type="email" {...register('email', {
                             pattern:{
                                 value:/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                                 message:"invalid email id please fill correct email id"
