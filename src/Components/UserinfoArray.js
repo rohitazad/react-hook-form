@@ -20,9 +20,9 @@ const UserInfoArray = ()=>{
             dateOfBirth: new Date()
         }
     })
-    const {register, control, handleSubmit, watch, getValues, setValue, formState:{errors, touchedFields, dirtyFields, isDirty}} = form;
+    const {register, control, handleSubmit, watch, getValues, setValue, formState:{errors, touchedFields, dirtyFields, isDirty, isValid}} = form;
 
-    //console.log({touchedFields, dirtyFields, isDirty});
+    console.log({touchedFields, dirtyFields, isDirty,isValid});
     
     const {fields, append, remove } = useFieldArray({
         name:'anoterPhoneNo',
@@ -57,6 +57,9 @@ const UserInfoArray = ()=>{
     //     })
     //     return ()=> subscription.unsubscribe();
     // }, [watch])
+    const onError = (error)=>{
+        console.log('error',error)
+    }
     componentRerender ++;
     return (
         <>
@@ -64,7 +67,7 @@ const UserInfoArray = ()=>{
                 <h2>User Info Details</h2>
                 <h3>My Components Rerender - ({componentRerender/2})</h3>
                {/* <h3>Form Watch {JSON.stringify(formWatch)}</h3> */}
-                <form action="#" onSubmit={handleSubmit(formSubmit)} className='userDetailForm' noValidate>
+                <form action="#" onSubmit={handleSubmit(formSubmit, onError)} className='userDetailForm' noValidate>
                     <div className='fromGroup'>
                         <label htmlFor="name">Name</label>
                         <input  type="text" id="name" {...register('name', {
@@ -185,7 +188,7 @@ const UserInfoArray = ()=>{
                     </div>
 
                     <div className='fromGroup'>
-                        <input type="submit" value="Save" />
+                        <input disabled={!isDirty || !isValid} type="submit" value="Save" />
                         <button type="button" onClick={hangelGetValues}>GetValues</button>
                         <button type="button" onClick={hangelSetValues}>SetValues</button>
                     </div>

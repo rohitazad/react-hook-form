@@ -50,3 +50,9 @@ h1{
   text-align: center;
   
 }
+input[type="submit"][disabled] {
+  background: #f8f8f8;
+  border-radius: 5px;
+  cursor: not-allowed;
+  color: gray;
+}
