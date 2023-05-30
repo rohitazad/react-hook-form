@@ -28,7 +28,8 @@ const UserInfoArray = ()=>{
             }],
             age:0,
             dateOfBirth: new Date()
-        }
+        },
+        mode:'all'
     })
     /*
         Form Submission State Guide 
