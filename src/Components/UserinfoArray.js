@@ -37,7 +37,7 @@ const UserInfoArray = ()=>{
         3. isSubmitSuccessful
         4. submitCount
     */
-    const {register, control, handleSubmit, watch, getValues, setValue, formState:{errors, touchedFields, dirtyFields, isDirty, isValid, isSubmitting, isSubmitted, isSubmitSuccessful, submitCount}} = form;
+    const {register, control, handleSubmit, watch, getValues, setValue, reset, formState:{errors, touchedFields, dirtyFields, isDirty, isValid, isSubmitting, isSubmitted, isSubmitSuccessful, submitCount}} = form;
 
     console.log({isSubmitting, isSubmitted, isSubmitSuccessful, submitCount})
     //console.log({touchedFields, dirtyFields, isDirty,isValid});
@@ -78,6 +78,14 @@ const UserInfoArray = ()=>{
     const onError = (error)=>{
         console.log('error',error)
     }
+    const handleReset = ()=>{
+        reset();
+    }
+    useEffect(()=>{
+        if(isSubmitSuccessful){
+            reset();
+        }
+    }, [isSubmitSuccessful, reset])
     componentRerender ++;
     return (
         <>
@@ -209,6 +217,7 @@ const UserInfoArray = ()=>{
                         <input disabled={!isDirty || !isValid || isSubmitting} type="submit" value="Save" />
                         <button type="button" onClick={hangelGetValues}>GetValues</button>
                         <button type="button" onClick={hangelSetValues}>SetValues</button>
+                        <button type="button" onClick={handleReset}>Reset</button>
                     </div>
 
                 </form>
