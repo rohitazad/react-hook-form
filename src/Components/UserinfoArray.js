@@ -138,7 +138,13 @@ const UserInfoArray = ()=>{
                                 },
                                 lengthError: (value)=>{
                                     return value.length > 6 || 'Please write correct email formate'
+                                },
+                                checkValidationEmail : async (value)=>{
+                                    const data = await fetch(`https://jsonplaceholder.typicode.com/users?email=${value}`);
+                                    const res = await data.json();
+                                    return res && res.length === 0 || 'This email id already used please used to another email id'
                                 }
+
                             }
                         })} placeholder='Enter your email' />
                         <p className='error'>{errors.email?.message}</p>
@@ -214,7 +220,7 @@ const UserInfoArray = ()=>{
                     </div>
 
                     <div className='fromGroup'>
-                        <input disabled={!isDirty || !isValid || isSubmitting} type="submit" value="Save" />
+                        <input disabled={!isDirty  || isSubmitting} type="submit" value="Save" />
                         <button type="button" onClick={hangelGetValues}>GetValues</button>
                         <button type="button" onClick={hangelSetValues}>SetValues</button>
                         <button type="button" onClick={handleReset}>Reset</button>
