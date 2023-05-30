@@ -2,6 +2,16 @@ import React, {useEffect} from 'react';
 import {useForm, useFieldArray} from 'react-hook-form';
 import {DevTool} from '@hookform/devtools';
 
+/*
+isSubmitting (जमा हो रहा है): यह राइक्ट वक्त पर यह दर्शाता है कि फॉर्म जमा करने की प्रक्रिया चल रही है। यदि फॉर्म जमा करने के लिए उपयोगकर्ता एक बटन पर क्लिक करता है और जमा करने की प्रक्रिया अभी चल रही है, तो इस स्थिति को सक्रिय किया जाता है।
+
+isSubmitted (जमा हो चुका है): यह स्थिति दर्शाती है कि फॉर्म सफलतापूर्वक जमा हो चुका है। जब उपयोगकर्ता फॉर्म को जमा कर देता है, तो इस स्थिति को सक्रिय किया जाता है।
+
+isSubmitSuccessful (जमा सफलतापूर्वक हुआ है): यह स्थिति दर्शाती है कि फॉर्म सफलतापूर्वक सर्वर तक पहुंच गया है और उसे स्वीकार किया गया है। जब फॉर्म सफलतापूर्वक जमा होता है और सर्वर से प्रतिक्रिया मिलती है, तो इस स्थिति को सक्रिय किया जाता है।
+
+submitCount (जमा करने की गिनती): यह वैरिएबल बताता है कि फॉर्म कितनी बार जमा हुआ है। हर बार जब उपयोगकर्ता फॉर्म को जमा करता है, तो इस गिनती को बढ़ाया जाता है।
+
+*/
 let componentRerender = 0;
 const UserInfoArray = ()=>{
     const form = useForm({
@@ -20,9 +30,17 @@ const UserInfoArray = ()=>{
             dateOfBirth: new Date()
         }
     })
-    const {register, control, handleSubmit, watch, getValues, setValue, formState:{errors, touchedFields, dirtyFields, isDirty, isValid}} = form;
+    /*
+        Form Submission State Guide 
+        1. isSubmitting
+        2. isSubmitted
+        3. isSubmitSuccessful
+        4. submitCount
+    */
+    const {register, control, handleSubmit, watch, getValues, setValue, formState:{errors, touchedFields, dirtyFields, isDirty, isValid, isSubmitting, isSubmitted, isSubmitSuccessful, submitCount}} = form;
 
-    console.log({touchedFields, dirtyFields, isDirty,isValid});
+    console.log({isSubmitting, isSubmitted, isSubmitSuccessful, submitCount})
+    //console.log({touchedFields, dirtyFields, isDirty,isValid});
     
     const {fields, append, remove } = useFieldArray({
         name:'anoterPhoneNo',
@@ -188,7 +206,7 @@ const UserInfoArray = ()=>{
                     </div>
 
                     <div className='fromGroup'>
-                        <input disabled={!isDirty || !isValid} type="submit" value="Save" />
+                        <input disabled={!isDirty || !isValid || isSubmitting} type="submit" value="Save" />
                         <button type="button" onClick={hangelGetValues}>GetValues</button>
                         <button type="button" onClick={hangelSetValues}>SetValues</button>
                     </div>
