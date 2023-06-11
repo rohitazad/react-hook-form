@@ -29,7 +29,7 @@ const UserInfoArray = ()=>{
             age:0,
             dateOfBirth: new Date()
         },
-        mode:'all'
+        mode:'onSubmit'
     })
     /*
         Form Submission State Guide 
@@ -38,8 +38,10 @@ const UserInfoArray = ()=>{
         3. isSubmitSuccessful
         4. submitCount
     */
-    const {register, control, handleSubmit, watch, getValues, setValue, reset, formState:{errors, touchedFields, dirtyFields, isDirty, isValid, isSubmitting, isSubmitted, isSubmitSuccessful, submitCount}} = form;
-
+    const {register, control, handleSubmit, watch, getValues, setValue, reset, trigger, formState:{errors, touchedFields, dirtyFields, isDirty, isValid, isSubmitting, isSubmitted, isSubmitSuccessful, submitCount}} = form;
+    const handleValidate = ()=>{
+        trigger(["email","age"]);
+    }
     console.log({isSubmitting, isSubmitted, isSubmitSuccessful, submitCount})
     //console.log({touchedFields, dirtyFields, isDirty,isValid});
     
@@ -225,6 +227,7 @@ const UserInfoArray = ()=>{
                         <button type="button" onClick={hangelGetValues}>GetValues</button>
                         <button type="button" onClick={hangelSetValues}>SetValues</button>
                         <button type="button" onClick={handleReset}>Reset</button>
+                        <button type="button" onClick={handleValidate}>Validation Trigger</button>
                     </div>
 
                 </form>
